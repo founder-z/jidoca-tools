@@ -1,0 +1,29 @@
+{
+  "name": "@founder-z/jidoca-tools",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run watch",
+    "build": "tsc",
+    "tslint": "tslint -p tsconfig.json -c tslint.json",
+    "watch": "tsc --watch"
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "extract": "./dist/extract.js",
+    "rescope": "./dist/rescope.js"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.28",
+    "n8n-workflow": "^0.53.0",
+    "tslint": "^5.20.1",
+    "typescript": "~4.1.5"
+  },
+  "dependencies": {
+    "commander": "^7.1.0",
+    "pofile": "^1.1.1"
+  }
+}
