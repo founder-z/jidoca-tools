@@ -13,21 +13,13 @@ new Command()
     })
     .option('-o, --output <value>', 'Output file path. Omit to print to stdout.')
     .action((directory, {output}) => {
-        const po = new PO();
-
-        po.headers = {
-            'Content-Type': 'text/plain; charset=utf-8',
-            'Content-Transfer-Encoding': '8bit',
-            'Generated-By': 'jidoca-tools',
-            'Project-Id-Version': '',
-        };
+        const items: {[key: string]: string[]} = {};
 
         function add(reference: string, id: string) {
-            const poItem = new PO.Item();
-            poItem.msgid = id;
-            poItem.references = [reference];
-            poItem.msgstr = [''];
-            po.items.push(poItem);
+            if (!items[id]) items[id] = [];
+            if (!items[id].includes(reference)) {
+                items[id].push(reference);
+            }
             return id;
         }
 
@@ -46,6 +38,22 @@ new Command()
                     new module[name]()
                 )
             }
+        }
+
+        const po = new PO();
+        po.headers = {
+            'Content-Type': 'text/plain; charset=utf-8',
+            'Content-Transfer-Encoding': '8bit',
+            'Generated-By': 'jidoca-tools',
+            'Project-Id-Version': '',
+        };
+
+        for (let [id, references] of Object.entries(items)) {
+            const poItem = new PO.Item();
+            poItem.msgid = id;
+            poItem.references = references;
+            poItem.msgstr = [''];
+            po.items.push(poItem);
         }
 
         const content = po.toString();
