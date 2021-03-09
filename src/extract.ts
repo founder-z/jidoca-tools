@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import PO from 'pofile';
 import {Command} from 'commander';
 import fs from "fs";
