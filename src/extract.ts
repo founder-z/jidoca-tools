@@ -34,7 +34,7 @@ new Command()
 
             if (walker) {
                 walker(
-                    add.bind(undefined, packageName + ': ' + relativePath),
+                    add.bind(undefined, packageName + ':' + relativePath),
                     new module[name]()
                 )
             }
