@@ -29,16 +29,31 @@ new Command()
 
         result.push(content.name + '@' + content.version);
 
-        Object.keys(content.dependencies).map(function (name) {
-            if (packages.includes(name)) {
-                content.dependencies[scope + '/' + name] = suffix
-                    ? content.dependencies[name] + '-' + suffix
-                    : content.dependencies[name];
-                delete content.dependencies[name];
+        if (content.dependencies) {
+            Object.keys(content.dependencies).map(function (name) {
+                if (packages.includes(name)) {
+                    content.dependencies[scope + '/' + name] = suffix
+                        ? content.dependencies[name] + '-' + suffix
+                        : content.dependencies[name];
+                    delete content.dependencies[name];
 
-                result.push(scope + '/' + name + '@' + content.dependencies[scope + '/' + name]);
-            }
-        });
+                    result.push(scope + '/' + name + '@' + content.dependencies[scope + '/' + name]);
+                }
+            });
+        }
+
+        if (content.devDependencies) {
+            Object.keys(content.devDependencies).map(function (name) {
+                if (packages.includes(name)) {
+                    content.devDependencies[scope + '/' + name] = suffix
+                        ? content.devDependencies[name] + '-' + suffix
+                        : content.devDependencies[name];
+                    delete content.devDependencies[name];
+
+                    result.push(scope + '/' + name + '@' + content.devDependencies[scope + '/' + name]);
+                }
+            });
+        }
 
         fs.writeFileSync(file, JSON.stringify(content, undefined, 4));
 
